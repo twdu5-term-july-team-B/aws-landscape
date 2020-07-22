@@ -3,7 +3,7 @@ resource "aws_cloudwatch_metric_alarm" "disk_space_utilization" {
   comparison_operator       = "GreaterThanOrEqualToThreshold"
   evaluation_periods        = "2"
   metric_name               = "DiskSpaceUtilization"
-  namespace                 = "Linux System"
+  namespace                 = "System/Linux"
   period                    = "120"
   statistic                 = "Average"
   threshold                 = "90"
