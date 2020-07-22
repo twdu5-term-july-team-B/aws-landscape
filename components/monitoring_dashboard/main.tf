@@ -161,6 +161,25 @@ resource "aws_cloudwatch_dashboard" "main" {
                     }
                 }
             }
+        },
+        {
+            "metrics": [
+                [ "Linux System", "DiskSpaceUtilization", "InstanceId", "i-0e5aaf2e8fec782b8", "MountPath", "/", "Filesystem", "/dev/xvda1", { "stat": "Average", "visible": false } ],
+                [ "System/Linux", ".", "MountPath", "/", "InstanceId", "i-0e5aaf2e8fec782b8", ".", ".", { "stat": "Average" } ]
+            ],
+            "region": "eu-central-1",
+            "view": "timeSeries",
+            "stacked": false,
+            "period": 5,
+            "annotations": {
+                "horizontal": [
+                    {
+                        "label": "DiskSpaceUtilization >= 90 for 2 datapoints within 4 minutes",
+                        "value": 90
+                    }
+                ]
+            },
+            "title": "kafka-running-out-of-space"
         }
     ]
 }
