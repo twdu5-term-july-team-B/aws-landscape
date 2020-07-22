@@ -41,3 +41,8 @@ variable "root_block_device" {
   }
   description = "Root Block Device configuration"
 }
+
+variable "alerting_sns_topic" {
+  type = "string"
+  description = "The SNS ARN that team members are subscribed to in order to get operations alerts"
+}

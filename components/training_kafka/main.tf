@@ -43,6 +43,16 @@ data "terraform_remote_state" "training_emr_cluster" {
   }
 }
 
+data "terraform_remote_state" "alerting" {
+  backend = "s3"
+  config {
+    key    = "alerting.tfstate"
+    bucket = "tw-dataeng-${var.cohort}-tfstate"
+    region = "${var.aws_region}"
+  }
+}
+
+
 module "training_kafka" {
   source = "../../modules/training_kafka"
 
@@ -58,4 +68,5 @@ module "training_kafka" {
   root_block_device = {
     volume_size = 60
   }
+  alerting_sns_topic = "${data.terraform_remote_state.alerting.sns_arn}"
 }
