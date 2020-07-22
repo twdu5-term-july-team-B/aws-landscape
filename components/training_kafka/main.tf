@@ -1,6 +1,15 @@
+//terraform {
+//  backend "s3" {}
+//}
+
 terraform {
-  backend "s3" {}
+  backend "s3" {
+    key = "training_kafka.tfstate"
+    bucket = "tw-dataeng-twdu5-term-july-team-b-tfstate"
+    region = "eu-central-1"
+  }
 }
+
 
 provider "aws" {
   region  = "${var.aws_region}"
@@ -45,4 +54,8 @@ module "training_kafka" {
   ec2_key_pair              = "tw-dataeng-${var.cohort}"
   dns_zone_id               = "${data.terraform_remote_state.base_networking.dns_zone_id}"
   instance_type             = "${var.kafka["instance_type"]}"
+  subdomain                 = "kafka"
+  root_block_device = {
+    volume_size = 60
+  }
 }

@@ -5,6 +5,9 @@ resource "aws_instance" "kafka" {
   subnet_id              = "${var.subnet_id}"
   key_name               = "${var.ec2_key_pair}"
   iam_instance_profile   = "${aws_iam_instance_profile.kafka.name}"
+  root_block_device {
+    volume_size = "${var.root_block_device["volume_size"]}"
+  }
 
   tags = "${merge(
     local.common_tags,

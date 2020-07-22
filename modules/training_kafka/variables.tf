@@ -29,3 +29,15 @@ variable "bastion_security_group_id" {
 variable "emr_security_group_id" {
   description = "Id of EMR cluster security group to Kafka & Zookeeper ingress"
 }
+
+variable "subdomain" {
+  description = "Subdomain where kafka is available at"
+}
+
+variable "root_block_device" {
+  type = "map"
+  default = {
+    volume_size = 8
+  }
+  description = "Root Block Device configuration"
+}
