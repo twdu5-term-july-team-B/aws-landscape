@@ -185,7 +185,7 @@ resource "aws_cloudwatch_dashboard" "main" {
                       }
                   ]
               },
-              "title": "kafka-running-out-of-space"
+              "title": "Kafka Disk Space Utilization"
             }
         }
     ]
