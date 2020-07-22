@@ -13,5 +13,7 @@ resource "aws_cloudwatch_metric_alarm" "disk_space_utilization" {
   alarm_actions = ["${var.alerting_sns_topic}"]
   dimensions = {
     InstanceId = "${aws_instance.kafka.id}"
+    MountPath = "/"
+    Filesystem = "/dev/xvda1"
   }
 }
