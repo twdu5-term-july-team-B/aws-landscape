@@ -36,22 +36,57 @@ resource "aws_emr_cluster" "training_cluster" {
   }
 
   service_role = "${aws_iam_role.emr_service.arn}"
+  
+    master_instance_group {
+      instance_type = "${var.master_type}"
+    }
 
-  instance_group {
-    instance_role  = "MASTER"
-    instance_type  = "${var.master_type}"
-    instance_count = "1"
-  }
+    core_instance_group {
+      instance_type  = "${var.core_type}"
+      instance_count = "${var.core_count}"
 
-  instance_group {
-    instance_role  = "CORE"
-    instance_type  = "${var.core_type}"
-    instance_count = "${var.core_count}"
-    ebs_config {
-      size = "500"
-      type = "gp2"
+      ebs_config {
+        iops                 = 0
+        size                 = "500"
+        type                 = "gp2"
+        volumes_per_instance = 1
+      }
+
+      autoscaling_policy = <<EOF
+{
+"Constraints": {
+  "MinCapacity": 3,
+  "MaxCapacity": 6
+},
+"Rules": [
+  {
+    "Name": "ScaleOutMemoryPercentage",
+    "Description": "Scale out if YARNMemoryAvailablePercentage is less than 15",
+    "Action": {
+      "SimpleScalingPolicyConfiguration": {
+        "AdjustmentType": "CHANGE_IN_CAPACITY",
+        "ScalingAdjustment": 1,
+        "CoolDown": 300
+      }
+    },
+    "Trigger": {
+      "CloudWatchAlarmDefinition": {
+        "ComparisonOperator": "LESS_THAN",
+        "EvaluationPeriods": 1,
+        "MetricName": "YARNMemoryAvailablePercentage",
+        "Namespace": "AWS/ElasticMapReduce",
+        "Period": 300,
+        "Statistic": "AVERAGE",
+        "Threshold": 15.0,
+        "Unit": "PERCENT"
+      }
     }
   }
+]
+}
+EOF
+    }
+
 
   tags = "${merge(
     local.common_tags,
