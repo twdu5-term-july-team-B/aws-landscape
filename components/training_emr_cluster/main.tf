@@ -25,6 +25,15 @@ data "terraform_remote_state" "bastion" {
   }
 }
 
+data "terraform_remote_state" "airflow" {
+  backend = "s3"
+  config {
+    key    = "training_airflow.tfstate"
+    bucket = "tw-dataeng-${var.cohort}-tfstate"
+    region = "${var.aws_region}"
+  }
+}
+
 module "training_cluster" {
   source = "../../modules/training_emr_cluster"
 
@@ -37,4 +46,5 @@ module "training_cluster" {
   core_type                 = "${var.emr_cluster["core_type"]}"
   core_count                = "${var.emr_cluster["core_count"]}"
   bastion_security_group_id = "${data.terraform_remote_state.bastion.bastion_security_group_id}"
+  airflow_security_group_id = "${data.terraform_remote_state.airflow.airflow_security_group_id}"
 }
