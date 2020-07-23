@@ -26,6 +26,7 @@ jobs:
      - checkout
      - run:
          command: source /okta_venv/bin/activate;
+                  set -e;
                  ./scripts/run_terraform.sh $TRAINING_COHORT alerting apply -input=false -auto-approve;
                  ./scripts/run_terraform.sh $TRAINING_COHORT base_networking apply -input=false -auto-approve;
                  ./scripts/run_terraform.sh $TRAINING_COHORT bastion apply -input=false -auto-approve;
@@ -67,6 +68,7 @@ jobs:
                  ./scripts/run_terraform.sh $TRAINING_COHORT training_bucket destroy -input=false -auto-approve;
                  ./scripts/run_terraform.sh $TRAINING_COHORT bastion destroy -input=false -auto-approve;
                  ./scripts/run_terraform.sh $TRAINING_COHORT base_networking destroy -input=false -auto-approve;
+                 ./scripts/run_terraform.sh $TRAINING_COHORT alerting apply -input=false -auto-approve;
 
 workflows:
   version: 2
