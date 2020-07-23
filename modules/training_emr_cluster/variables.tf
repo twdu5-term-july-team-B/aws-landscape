@@ -37,3 +37,7 @@ variable "bastion_security_group_id" {
 variable "airflow_security_group_id" {
   description = "Id of the Airflow security group to allow access to WebHdfs"
 }
+
+variable "alerting_sns_topic" {
+  description = "ARN of the SNS topic that alerts the team"
+}
