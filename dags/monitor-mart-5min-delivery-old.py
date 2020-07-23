@@ -1,6 +1,7 @@
 from airflow import DAG
 from datetime import datetime, timedelta
 from airflow.operators.bash_operator import BashOperator
+from airflow.operators.python_operator import PythonOperator
 
 
 app_name = "monitor-mart-5-min-delivery"
@@ -26,22 +27,30 @@ hadoop fs -fs hdfs://emr-master.twdu5-term-july-team-b.training -ls /tw/stationM
 
 last_timestamp = BashOperator(
     task_id='last_timestamp',
+    #    xcom_pull=True,
     bash_command=last_timestamp_command,
     dag=dag,
 )
 
-
-# python operator => compare
-def is_5_min_ago_command(datetime_string):
-  datetime.strptime(datetime_string, '%d/%m/%y %H:%M:%S') - datetime.timedelta(minutes=5)
-
-
-PythonOperator(
-    task_id='is_5_mins_ago',
-    python_callable=is_5_min_ago_command("{{ task_instance.xcom_pull('add_step', key='return_value')[0] }}"),
-    dag=dag,
+check_output = BashOperator(
+  task_id='check_output',
+  bash_command='echo "{{ task_instance.xcom_pull("last_timestamp")}}"',
+  dag=dag,
 )
 
 
+# python operator => compare
+#def is_5_min_ago_command(datetime_string):
+#  datetime.strptime(datetime_string, '%d/%m/%y %H:%M:%S') - datetime.timedelta(minutes=5)
 
-# last_timestamp >> watch_prev_step_task
+
+#PythonOperator(
+#    task_id='is_5_mins_ago',
+#    python_callable=is_5_min_ago_command("{{ task_instance.xcom_pull('last_timestamp')}}"),
+#    dag=dag,
+#)
+
+
+
+last_timestamp >> check_output
+#last_timestamp >> watch_prev_step_task
