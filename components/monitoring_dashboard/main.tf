@@ -195,25 +195,23 @@ resource "aws_cloudwatch_dashboard" "main" {
             "width": 12,
             "height": 3,
             "properties": {
-              {
-                "region": "eu-central-1",
-                "metrics": [
-                    [ "Custom", "hdfs-station-mart-file-exists", "JobFlowId", "j-1HHXQM194OUAM", { "stat": "Minimum" } ]
-                ],
-                "view": "timeSeries",
-                "stacked": false,
-                "period": 600,
-                "annotations": {
-                    "horizontal": [
-                        {
-                            "label": "hdfs-station-mart-file-exists <= 0.5 for 2 datapoints within 20 minutes",
-                            "value": 0.5
-                        }
-                    ]
-                },
-                "title": "HDFS Station Mart File Exists"
-            }
-            }
+              "region": "eu-central-1",
+              "metrics": [
+                  [ "Custom", "hdfs-station-mart-file-exists", "JobFlowId", "j-1HHXQM194OUAM", { "stat": "Minimum" } ]
+              ],
+              "view": "timeSeries",
+              "stacked": false,
+              "period": 600,
+              "annotations": {
+                  "horizontal": [
+                      {
+                          "label": "hdfs-station-mart-file-exists <= 0.5 for 2 datapoints within 20 minutes",
+                          "value": 0.5
+                      }
+                  ]
+              },
+              "title": "HDFS Station Mart File Exists"
+          }
         }
     ]
 }
