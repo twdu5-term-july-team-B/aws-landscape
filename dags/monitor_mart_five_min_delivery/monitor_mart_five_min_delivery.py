@@ -3,7 +3,14 @@ from datetime import timedelta, datetime
 import time
 from airflow.operators.python_operator import PythonOperator
 import requests
-from dags.awsHelpers import assume_role
+
+import os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
+import sys
+sys.path.append(dir_path+"/helpers")
+
+from aws_helpers import assume_role
 
 app_name = "monitor-mart-5-min-delivery"
 cluster_id = "j-1HHXQM194OUAM"
