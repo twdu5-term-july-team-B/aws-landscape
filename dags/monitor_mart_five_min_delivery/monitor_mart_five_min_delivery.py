@@ -2,13 +2,10 @@ from airflow import DAG
 from datetime import timedelta, datetime
 from airflow.operators.python_operator import PythonOperator
 import requests
-
 import os
 dir_path = os.path.dirname(os.path.realpath(__file__))
-
 import sys
 sys.path.append(dir_path+"/helpers")
-
 from aws_helpers import assume_role
 
 app_name = "monitor-mart-5-min-delivery"
@@ -29,13 +26,12 @@ dag = DAG(
 
 def get_files():
     url = "http://emr-master.twdu5-term-july-team-b.training:50070/webhdfs/v1/tw/stationMart/data?op=LISTSTATUS"
-    res = requests.get(url)
-    return res.text
+    res = requests.get(url, json={"key": "value"}, headers={'Content-type': 'application/json; charset=utf-8'})
+    return res.json()
 
 
 def get_last_modification_epoch(response_data):
-    file_statuses = response_data["FileStatuses"]
-    for file_status in file_statuses["FileStatus"]:
+    for file_status in response_data["FileStatuses"]["FileStatus"]:
         if str(file_status["pathSuffix"]).endswith("csv"):
             modification_time = file_status["modificationTime"]
 
