@@ -1,53 +1,27 @@
 import unittest
-from monitor_mart_five_min_delivery.monitor_mart_five_min_delivery import fetch_modification_times_from_response
-from monitor_mart_five_min_delivery.monitor_mart_five_min_delivery import calculateMetricDataValue
+from dags.monitor_mart_five_min_delivery.monitor_mart_five_min_delivery import fetch_modification_times_from_response
+from dags.monitor_mart_five_min_delivery.monitor_mart_five_min_delivery import calculate_metric_data_value
 
+from dags.monitor_mart_five_min_delivery.monitor_mart_five_min_delivery import fetch_modification_times_from_response
+import json
 
 class MyTestCase(unittest.TestCase):
-    def test_something(self):
-        test_dict = {
-              "FileStatuses": {
-                "FileStatus": [
-                  {
-                    "accessTime": 1595514520058,
-                    "blockSize": 134217728,
-                    "childrenNum": 0,
-                    "fileId": 4990702,
-                    "group": "hadoop",
-                    "length": 0,
-                    "modificationTime": 1595514520059,
-                    "owner": "hadoop",
-                    "pathSuffix": "_SUCCESS",
-                    "permission": "644",
-                    "replication": 2,
-                    "storagePolicy": 0,
-                    "type": "FILE"
-                  },
-                  {
-                    "accessTime": 1595514520039,
-                    "blockSize": 134217728,
-                    "childrenNum": 0,
-                    "fileId": 4990701,
-                    "group": "hadoop",
-                    "length": 129674,
-                    "modificationTime": 1595514520049,
-                    "owner": "hadoop",
-                    "pathSuffix": "part-00000-06eb7428-ce1e-4e93-bc81-552023c806ca-c000.csv",
-                    "permission": "644",
-                    "replication": 2,
-                    "storagePolicy": 0,
-                    "type": "FILE"
-                  }
-                ]
-              }
-        }
-        self.assertEqual(fetch_modification_times_from_response(test_dict), ['1595514520059', '1595514520049'])
+    def test_fetch_modification_times(self):
+        with open('testcase.txt') as json_file:
+            test_dict = json.load(json_file)
 
-    def test_calculateMetricDataValueForFileThatHasBeenWrittenInTheLastFiveMin(self):
-      self.assertEqual(calculateMetricDataValue(True), 1.0)
+        self.assertEqual(['1595514520059', '1595514520049'], fetch_modification_times_from_response(test_dict))
 
-    def test_calculateMetricDataValueForFileThatHasNotBeenWrittenInTheLastFiveMin(self):
-      self.assertEqual(calculateMetricDataValue(False), 0.0)
+    def test_check_last_five_minutes(self):
+
+
+
+
+    def test_calculate_metric_data_value_for_file_that_has_been_written_in_the_last_five_min(self):
+      self.assertEqual(calculate_metric_data_value(True), 1.0)
+
+    def test_calculate_metric_data_value_for_file_that_has_not_been_written_in_the_last_five_min(self):
+      self.assertEqual(calculate_metric_data_value(False), 0.0)
 
 if __name__ == '__main__':
     unittest.main()
