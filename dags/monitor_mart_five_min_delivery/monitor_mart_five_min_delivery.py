@@ -1,6 +1,5 @@
 from airflow import DAG
 from datetime import timedelta, datetime
-import time
 from airflow.operators.python_operator import PythonOperator
 import requests
 
@@ -10,7 +9,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 import sys
 sys.path.append(dir_path+"/helpers")
 
-from dags.aws_helpers import assume_role
+from aws_helpers import assume_role
 
 app_name = "monitor-mart-5-min-delivery"
 cluster_id = "j-1HHXQM194OUAM"
@@ -43,14 +42,9 @@ def get_last_modification_epoch(response_data):
     return modification_time
 
 
-def is_within_five_minute_delivery(modification_time):
-    time_five_mins_ago = datetime.now() - timedelta(minutes=5) #datetime
-    print time_five_mins_ago
-    time_five_mins_ago_in_epoch = int(time_five_mins_ago.strftime('%s'))  #epoch
-    print time_five_mins_ago_in_epoch/1000
-    print modification_time
-    print modification_time > time_five_mins_ago_in_epoch/1000
-    return modification_time > time_five_mins_ago_in_epoch
+def is_within_five_minute_delivery(modification_time_in_millis):
+    time_five_mins_ago_in_epoch = (datetime.now() - timedelta(minutes=5) - datetime(1970,1,1)).total_seconds()
+    return modification_time_in_millis/1000 > time_five_mins_ago_in_epoch
 
 def calculate_metric_data_value(has_been_created_in_last_five_min):
     return 1.0 if has_been_created_in_last_five_min else 0.0
