@@ -17,14 +17,14 @@ cluster_id = "j-1HHXQM194OUAM"
 
 args = {
     'owner': 'airflow',
-    'start_date': datetime(2020, 7, 18),
-    'schedule_interval': '*/2 * * * *'
+    'start_date': datetime(2020, 7, 18)
 }
 
 dag = DAG(
     app_name,
     default_args=args,
-    max_active_runs=1
+    max_active_runs=1,
+    schedule_interval='*/2 * * * *'
 )
 
 
@@ -73,9 +73,13 @@ def check_five_minute_delivery():
     return time_difference_since_last_modified(get_modification_times()) < timedelta(minutes=5)
 
 
+def execute():
+    send_metrics_to_cloudwatch(calculate_metric_data_value(check_five_minute_delivery()))
+
+
 modified_in_last_5mins = PythonOperator(
-    task_id='is_5_mins_ago',
-    python_callable=check_five_minute_delivery,
+    task_id='check_file_was_created_within_5_mins',
+    python_callable=execute,
     dag=dag,
 )
 
