@@ -1,6 +1,6 @@
 import unittest
 from monitor_mart_five_min_delivery.monitor_mart_five_min_delivery import fetch_modification_times_from_response
-from monitor_mart_five_min_delivery.monitor_mart_five_min_delivery import sendMetricsToCloudwatch
+from monitor_mart_five_min_delivery.monitor_mart_five_min_delivery import calculateMetricDataValue
 
 
 class MyTestCase(unittest.TestCase):
@@ -43,8 +43,11 @@ class MyTestCase(unittest.TestCase):
         }
         self.assertEqual(fetch_modification_times_from_response(test_dict), ['1595514520059', '1595514520049'])
 
-    def test_sendMetricsToCloudwatch(self):
-      self.assertTrue(sendMetricsToCloudwatch)
+    def test_calculateMetricDataValueForFileThatHasBeenWrittenInTheLastFiveMin(self):
+      self.assertEqual(calculateMetricDataValue(True), 1.0)
+
+    def test_calculateMetricDataValueForFileThatHasNotBeenWrittenInTheLastFiveMin(self):
+      self.assertEqual(calculateMetricDataValue(False), 0.0)
 
 if __name__ == '__main__':
     unittest.main()

@@ -32,8 +32,8 @@ def get_modification_times():
 
 
 def sendMetricsToCloudwatch(hasBeenCreatedInLastFiveMin):
-    session = assume_role("arn:aws:iam::534731679169:role/stevethepug-test", "airflow-monitor-5min")
-    value = 1.0 if hasBeenCreatedInLastFiveMin else 0.0
+    session = assume_role("arn:aws:iam::534731679169:role/steve-the-cloudwatcher", "airflow-monitor-5min")
+    value = calculateMetricDataValue(hasBeenCreatedInLastFiveMin)
     session.client('cloudwatch', region_name="eu-central-1").put_metric_data(
         Namespace='Custom',
         MetricData=[
@@ -49,6 +49,10 @@ def sendMetricsToCloudwatch(hasBeenCreatedInLastFiveMin):
             },
         ]
     )
+
+def calculateMetricDataValue(hasbeenCreatedInLastFiveMin):
+    return 1.0 if hasbeenCreatedInLastFiveMin else 0.0
+
 
 modified_in_last_5mins = PythonOperator(
     task_id='is_5_mins_ago',
