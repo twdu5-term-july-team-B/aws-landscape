@@ -20,3 +20,4 @@ kms_key_arn.tfvars
 okta_venv
 
 CA/certs/*
+dags/.virtualenvs
