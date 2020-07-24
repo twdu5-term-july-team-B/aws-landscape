@@ -1,5 +1,6 @@
 import unittest
 from monitor_mart_five_min_delivery.monitor_mart_five_min_delivery import fetch_modification_times_from_response
+from monitor_mart_five_min_delivery.monitor_mart_five_min_delivery import sendMetricsToCloudwatch
 
 
 class MyTestCase(unittest.TestCase):
@@ -42,6 +43,8 @@ class MyTestCase(unittest.TestCase):
         }
         self.assertEqual(fetch_modification_times_from_response(test_dict), ['1595514520059', '1595514520049'])
 
+    def test_sendMetricsToCloudwatch(self):
+      self.assertTrue(sendMetricsToCloudwatch)
 
 if __name__ == '__main__':
     unittest.main()

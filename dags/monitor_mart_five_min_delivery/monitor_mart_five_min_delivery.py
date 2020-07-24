@@ -2,6 +2,7 @@ from airflow import DAG
 from datetime import datetime, timedelta
 from airflow.operators.python_operator import PythonOperator
 import requests
+from awsHelpers import assume_role
 
 app_name = "monitor-mart-5-min-delivery"
 cluster_id = "j-1HHXQM194OUAM"
@@ -29,6 +30,25 @@ def get_modification_times():
 
     return res.text
 
+
+def sendMetricsToCloudwatch(hasBeenCreatedInLastFiveMin):
+    session = assume_role("arn:aws:iam::534731679169:role/stevethepug-test", "airflow-monitor-5min")
+    value = 1.0 if hasBeenCreatedInLastFiveMin else 0.0
+    session.client('cloudwatch', region_name="eu-central-1").put_metric_data(
+        Namespace='Custom',
+        MetricData=[
+            {
+                'MetricName': 'hdfs-station-mart-file-exists',
+                'Dimensions': [
+                    {
+                        'Name': 'JobFlowId',
+                        'Value': 'j-1HHXQM194OUAM'
+                    },
+                ],
+                'Value': value,
+            },
+        ]
+    )
 
 modified_in_last_5mins = PythonOperator(
     task_id='is_5_mins_ago',
