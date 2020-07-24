@@ -1,5 +1,5 @@
 import unittest
-from dags.monitor_mart_five_min_delivery.monitor_mart_five_min_delivery import fetch_modification_times_from_response
+from monitor_mart_five_min_delivery.monitor_mart_five_min_delivery import fetch_modification_times_from_response
 
 
 class MyTestCase(unittest.TestCase):

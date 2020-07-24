@@ -32,7 +32,7 @@ def get_modification_times():
 
 modified_in_last_5mins = PythonOperator(
     task_id='is_5_mins_ago',
-    python_callable=get_modification_times(),
+    python_callable=get_modification_times,
     dag=dag,
 )
 
