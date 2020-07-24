@@ -10,7 +10,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 import sys
 sys.path.append(dir_path+"/helpers")
 
-from aws_helpers import assume_role
+from dags.aws_helpers import assume_role
 
 app_name = "monitor-mart-5-min-delivery"
 cluster_id = "j-1HHXQM194OUAM"
@@ -28,22 +28,32 @@ dag = DAG(
 )
 
 
-def time_difference_since_last_modified(response_data):
-    modification_time = ""
+def get_files():
+    url = "http://emr-master.twdu5-term-july-team-b.training:50070/webhdfs/v1/tw/stationMart/data?op=LISTSTATUS"
+    res = requests.get(url)
+    return res.text
+
+
+def get_last_modification_epoch(response_data):
     file_statuses = response_data["FileStatuses"]
     for file_status in file_statuses["FileStatus"]:
         if str(file_status["pathSuffix"]).endswith("csv"):
-            modification_time = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(float(file_status["modificationTime"])/1000))
-    time_difference = datetime.now() - datetime.strptime(modification_time, "%Y-%m-%d %H:%M:%S")
-    return time_difference
+            modification_time = file_status["modificationTime"]
+
+    return modification_time
 
 
-def get_modification_times():
-    url = "http://emr-master.twdu5-term-july-team-b.training:50070/webhdfs/v1/tw/stationMart/data?op=LISTSTATUS"
-    res = requests.get(url)
-    check_five_minute_delivery(res.text)
-    return res.text
+def is_within_five_minute_delivery(modification_time):
+    time_five_mins_ago = datetime.now() - timedelta(minutes=5) #datetime
+    print time_five_mins_ago
+    time_five_mins_ago_in_epoch = int(time_five_mins_ago.strftime('%s'))  #epoch
+    print time_five_mins_ago_in_epoch/1000
+    print modification_time
+    print modification_time > time_five_mins_ago_in_epoch/1000
+    return modification_time > time_five_mins_ago_in_epoch
 
+def calculate_metric_data_value(has_been_created_in_last_five_min):
+    return 1.0 if has_been_created_in_last_five_min else 0.0
 
 def send_metrics_to_cloudwatch(has_been_created_in_last_five_min):
     session = assume_role("arn:aws:iam::534731679169:role/steve-the-cloudwatcher", "airflow-monitor-5min")
@@ -65,16 +75,14 @@ def send_metrics_to_cloudwatch(has_been_created_in_last_five_min):
     )
 
 
-def calculate_metric_data_value(has_been_created_in_last_five_min):
-    return 1.0 if has_been_created_in_last_five_min else 0.0
-
-
-def check_five_minute_delivery():
-    return time_difference_since_last_modified(get_modification_times()) < timedelta(minutes=5)
 
 
 def execute():
-    send_metrics_to_cloudwatch(calculate_metric_data_value(check_five_minute_delivery()))
+    send_metrics_to_cloudwatch(
+        calculate_metric_data_value(
+            is_within_five_minute_delivery(get_last_modification_epoch(get_files()))
+        )
+    )
 
 
 modified_in_last_5mins = PythonOperator(
