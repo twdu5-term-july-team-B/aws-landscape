@@ -56,7 +56,7 @@ def send_metrics_to_cloudwatch(has_been_created_in_last_five_min):
                 'Dimensions': [
                     {
                         'Name': 'JobFlowId',
-                        'Value': 'j-1HHXQM194OUAM'
+                        'Value': cluster_id
                     },
                 ],
                 'Value': value,
