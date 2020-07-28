@@ -40,22 +40,38 @@ resource "aws_emr_cluster" "training_cluster" {
 //  TODO: The following causes the EMR cluster to be recreated... uncomment with caution.
 //  additional_info = "${file("${path.module}/emrclusterconfig.json")}"
 
-  master_instance_group {
-    instance_type = "${var.master_type}"
+  instance_group {
+    instance_role  = "MASTER"
+    instance_type  = "${var.master_type}"
+    instance_count = "1"
   }
 
-  core_instance_group {
+  instance_group {
+    instance_role  = "CORE"
     instance_type  = "${var.core_type}"
     instance_count = "${var.core_count}"
-
     ebs_config {
-      iops                 = 0
-      size                 = "500"
-      type                 = "gp2"
-      volumes_per_instance = 1
+      size = "500"
+      type = "gp2"
     }
+  }
+
 // TODO: Error: Instance Group () Auto Scaling Policy: ValidationException: Instance group id '' is not valid.
 // This is probably caused by migrating from `instance_groups` to `core/master_instance_group`
+//  master_instance_group {
+//    instance_type = "${var.master_type}"
+//  }
+//
+//  core_instance_group {
+//    instance_type = "${var.core_type}"
+//    instance_count = "${var.core_count}"
+//
+//    ebs_config {
+//      iops = 0
+//      size = "500"
+//      type = "gp2"
+//      volumes_per_instance = 1
+//    }
 //
 //    autoscaling_policy = <<EOF
 //{
@@ -90,7 +106,7 @@ resource "aws_emr_cluster" "training_cluster" {
 //]
 //}
 //EOF
-    }
+//    }
 
 
   tags = "${merge(
