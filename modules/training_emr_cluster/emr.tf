@@ -36,8 +36,9 @@ resource "aws_emr_cluster" "training_cluster" {
   }
 
   service_role = "${aws_iam_role.emr_service.arn}"
-
-  additional_info = file("${path.module}/emrclusterconfig.json")
+  
+//  TODO: The following causes the EMR cluster to be recreated... uncomment with caution.
+//  additional_info = "${file("${path.module}/emrclusterconfig.json")}"
 
   master_instance_group {
     instance_type = "${var.master_type}"
