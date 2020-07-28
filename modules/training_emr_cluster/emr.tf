@@ -48,7 +48,7 @@ resource "aws_emr_cluster" "training_cluster" {
        "yarn.scheduler.capacity.root.monitoring.capacity": "5",
        "yarn.scheduler.capacity.root.default.state": "RUNNING",
        "yarn.scheduler.capacity.root.streaming.state": "RUNNING",
-       "yarn.scheduler.capacity.root.monitoring.state": "RUNNING",
+       "yarn.scheduler.capacity.root.monitoring.state": "RUNNING"
      }
    },
    {
