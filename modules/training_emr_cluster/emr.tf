@@ -40,21 +40,21 @@ resource "aws_emr_cluster" "training_cluster" {
   additional_info = <<EOF
 [
   {
-  “Classification”: “capacity-scheduler”,
-  “Properties”: {
-       “yarn.scheduler.capacity.root.queues”: “default,streaming,monitoring”,
-       “yarn.scheduler.capacity.root.default.capacity”: “25”,
-       “yarn.scheduler.capacity.root.streaming.capacity”: “70”,
-       “yarn.scheduler.capacity.root.monitoring.capacity”: “5”,
-       “yarn.scheduler.capacity.root.default.state”: “RUNNING”,
-       “yarn.scheduler.capacity.root.streaming.state”: “RUNNING”,
-       “yarn.scheduler.capacity.root.monitoring.state”: “RUNNING”,
+  "Classification”: "capacity-scheduler",
+  "Properties": {
+       "yarn.scheduler.capacity.root.queues”: "default,streaming,monitoring”,
+       "yarn.scheduler.capacity.root.default.capacity”: "25”,
+       "yarn.scheduler.capacity.root.streaming.capacity”: "70”,
+       "yarn.scheduler.capacity.root.monitoring.capacity”: "5”,
+       "yarn.scheduler.capacity.root.default.state”: "RUNNING”,
+       "yarn.scheduler.capacity.root.streaming.state”: "RUNNING”,
+       "yarn.scheduler.capacity.root.monitoring.state”: "RUNNING”,
      }
    },
    {
-     “Classification”: “yarn-site”,
-     “Properties”: {
-       “yarn.resourcemanager.scheduler.class”: “org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler”
+     "Classification”: "yarn-site”,
+     "Properties”: {
+       "yarn.resourcemanager.scheduler.class”: "org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler”
      }
    }
 ]
