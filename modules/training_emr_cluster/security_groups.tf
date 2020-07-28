@@ -110,6 +110,16 @@ resource "aws_security_group_rule" "bastion_yarn_resourcemanager" {
   description              = "YARN ResourceManager: http://master-dns-name:8088/"
 }
 
+resource "aws_security_group_rule" "airflow_yarn_resourcemanager" {
+  type                     = "ingress"
+  security_group_id        = "${aws_security_group.emr_shared.id}"
+  source_security_group_id = "${var.airflow_security_group_id}"
+  from_port                = 8088
+  to_port                  = 8088
+  protocol                 = "tcp"
+  description              = "YARN ResourceManager: http://master-dns-name:8088/"
+}
+
 resource "aws_security_group_rule" "bastion_yarn_nodemanager" {
   type                     = "ingress"
   security_group_id        = "${aws_security_group.emr_shared.id}"
