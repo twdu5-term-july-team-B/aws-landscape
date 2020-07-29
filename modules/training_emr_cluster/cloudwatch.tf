@@ -19,10 +19,10 @@ resource "aws_cloudwatch_metric_alarm" "hdfs-station-mart-file-exists" {
 
 resource "aws_cloudwatch_metric_alarm" "kafka-consumer-running" {
   count = "${length(var.kafka_consumers_to_monitor)}"
-  alarm_name                = "${var.kafka_consumers_to_monitor[count.index]}"
+  alarm_name                = "${var.kafka_consumers_to_monitor[count.index]}IsRunning"
   comparison_operator       = "LessThanOrEqualToThreshold"
   evaluation_periods        = "1"
-  metric_name               = "${var.kafka_consumers_to_monitor[count.index]}-is-running"
+  metric_name               = "kafkaConsumerRunning"
   namespace                 = "Custom"
   period                    = "300"
   statistic                 = "Maximum"
