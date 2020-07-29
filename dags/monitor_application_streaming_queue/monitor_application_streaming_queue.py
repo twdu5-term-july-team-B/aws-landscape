@@ -36,7 +36,7 @@ class MonitorApplicationStreamingQueue:
         return create_aws_cloudwatch_client(self.aws_session(), "eu-central-1")
 
     def report(self, applications_in_streaming_queue):
-        self.postToCloudWatch(self.cloudwatch_client(), "streaming", applications_in_streaming_queue <= self.allowed_applications)
+        self.postToCloudwatch(self.cloudwatch_client(), "streaming", set(applications_in_streaming_queue).issubset(set(self.allowed_applications)))
 
     def postToCloudwatch(self, client, queue, True):
         value = 1.0 if True else 0.0
