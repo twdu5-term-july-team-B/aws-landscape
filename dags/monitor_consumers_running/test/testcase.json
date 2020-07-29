@@ -1,0 +1,213 @@
+{
+  "apps": {
+    "app": [
+      {
+        "id": "application_1595941188025_0009",
+        "user": "hadoop",
+        "name": "StationTransformerNYC",
+        "queue": "streaming",
+        "state": "KILLED",
+        "finalStatus": "KILLED",
+        "progress": 100,
+        "trackingUI": "History",
+        "trackingUrl": "http://ip-10-0-3-181.eu-central-1.compute.internal:8088/cluster/app/application_1595941188025_0009",
+        "diagnostics": "Application application_1595941188025_0009 was killed by user hadoop at 10.0.3.181",
+        "clusterId": 1595941188025,
+        "applicationType": "SPARK",
+        "applicationTags": "",
+        "priority": 0,
+        "startedTime": 1595943050156,
+        "finishedTime": 1595947864199,
+        "elapsedTime": 4814043,
+        "amContainerLogs": "http://ip-10-0-3-116.eu-central-1.compute.internal:8042/node/containerlogs/container_1595941188025_0009_01_000001/hadoop",
+        "amHostHttpAddress": "ip-10-0-3-116.eu-central-1.compute.internal:8042",
+        "allocatedMB": -1,
+        "allocatedVCores": -1,
+        "runningContainers": -1,
+        "memorySeconds": 15966468,
+        "vcoreSeconds": 9605,
+        "queueUsagePercentage": 0,
+        "clusterUsagePercentage": 0,
+        "preemptedResourceMB": 0,
+        "preemptedResourceVCores": 0,
+        "numNonAMContainerPreempted": 0,
+        "numAMContainerPreempted": 0,
+        "preemptedMemorySeconds": 0,
+        "preemptedVcoreSeconds": 0,
+        "logAggregationStatus": "SUCCEEDED",
+        "unmanagedApplication": false,
+        "amNodeLabelExpression": ""
+      },
+      {
+        "id": "application_1595941188025_0003",
+        "user": "hadoop",
+        "name": "StationStatusSaverApp",
+        "queue": "streaming",
+        "state": "KILLED",
+        "finalStatus": "KILLED",
+        "progress": 100,
+        "trackingUI": "History",
+        "trackingUrl": "http://ip-10-0-3-181.eu-central-1.compute.internal:8088/cluster/app/application_1595941188025_0003",
+        "diagnostics": "Application application_1595941188025_0003 was killed by user hadoop at 10.0.3.181",
+        "clusterId": 1595941188025,
+        "applicationType": "SPARK",
+        "applicationTags": "",
+        "priority": 0,
+        "startedTime": 1595941459111,
+        "finishedTime": 1595947801809,
+        "elapsedTime": 6342698,
+        "amContainerLogs": "http://ip-10-0-3-244.eu-central-1.compute.internal:8042/node/containerlogs/container_1595941188025_0003_01_000001/hadoop",
+        "amHostHttpAddress": "ip-10-0-3-244.eu-central-1.compute.internal:8042",
+        "allocatedMB": -1,
+        "allocatedVCores": -1,
+        "runningContainers": -1,
+        "memorySeconds": 21069260,
+        "vcoreSeconds": 12668,
+        "queueUsagePercentage": 0,
+        "clusterUsagePercentage": 0,
+        "preemptedResourceMB": 0,
+        "preemptedResourceVCores": 0,
+        "numNonAMContainerPreempted": 0,
+        "numAMContainerPreempted": 0,
+        "preemptedMemorySeconds": 0,
+        "preemptedVcoreSeconds": 0,
+        "logAggregationStatus": "SUCCEEDED",
+        "unmanagedApplication": false,
+        "amNodeLabelExpression": ""
+      },
+      {
+        "id": "application_1595941188025_0004",
+        "user": "hadoop",
+        "name": "StationInformationSaverApp",
+        "queue": "streaming",
+        "state": "KILLED",
+        "finalStatus": "KILLED",
+        "progress": 100,
+        "trackingUI": "History",
+        "trackingUrl": "http://ip-10-0-3-181.eu-central-1.compute.internal:8088/cluster/app/application_1595941188025_0004",
+        "diagnostics": "Application application_1595941188025_0004 was killed by user hadoop at 10.0.3.181",
+        "clusterId": 1595941188025,
+        "applicationType": "SPARK",
+        "applicationTags": "",
+        "priority": 0,
+        "startedTime": 1595941491354,
+        "finishedTime": 1595947809160,
+        "elapsedTime": 6317806,
+        "amContainerLogs": "http://ip-10-0-3-116.eu-central-1.compute.internal:8042/node/containerlogs/container_1595941188025_0004_01_000001/hadoop",
+        "amHostHttpAddress": "ip-10-0-3-116.eu-central-1.compute.internal:8042",
+        "allocatedMB": -1,
+        "allocatedVCores": -1,
+        "runningContainers": -1,
+        "memorySeconds": 16536807,
+        "vcoreSeconds": 10783,
+        "queueUsagePercentage": 0,
+        "clusterUsagePercentage": 0,
+        "preemptedResourceMB": 0,
+        "preemptedResourceVCores": 0,
+        "numNonAMContainerPreempted": 0,
+        "numAMContainerPreempted": 0,
+        "preemptedMemorySeconds": 0,
+        "preemptedVcoreSeconds": 0,
+        "logAggregationStatus": "SUCCEEDED",
+        "unmanagedApplication": false,
+        "amNodeLabelExpression": ""
+      },
+      {
+        "id": "application_1595941188025_0048",
+        "user": "hadoop",
+        "name": "StationDataSFSaverApp",
+        "queue": "streaming",
+        "state": "RUNNING",
+        "finalStatus": "UNDEFINED",
+        "progress": 10,
+        "trackingUI": "ApplicationMaster",
+        "trackingUrl": "http://ip-10-0-3-181.eu-central-1.compute.internal:20888/proxy/application_1595941188025_0048/",
+        "diagnostics": "",
+        "clusterId": 1595941188025,
+        "applicationType": "SPARK",
+        "applicationTags": "",
+        "priority": 0,
+        "startedTime": 1596013527171,
+        "finishedTime": 0,
+        "elapsedTime": 1445328,
+        "amContainerLogs": "http://ip-10-0-3-215.eu-central-1.compute.internal:8042/node/containerlogs/container_1595941188025_0048_01_000001/hadoop",
+        "amHostHttpAddress": "ip-10-0-3-215.eu-central-1.compute.internal:8042",
+        "amRPCAddress": "10.0.3.215:0",
+        "allocatedMB": 3328,
+        "allocatedVCores": 2,
+        "runningContainers": 2,
+        "memorySeconds": 4764799,
+        "vcoreSeconds": 2871,
+        "queueUsagePercentage": 9.672731,
+        "clusterUsagePercentage": 6.7708335,
+        "preemptedResourceMB": 0,
+        "preemptedResourceVCores": 0,
+        "numNonAMContainerPreempted": 0,
+        "numAMContainerPreempted": 0,
+        "preemptedMemorySeconds": 0,
+        "preemptedVcoreSeconds": 0,
+        "resourceRequests": [
+          {
+            "capability": {
+              "memory": 896,
+              "memorySize": 896,
+              "virtualCores": 1
+            },
+            "emrLabel": "MASTER,CORE",
+            "nodeLabelExpression": "",
+            "numContainers": 0,
+            "priority": {
+              "priority": 0
+            },
+            "relaxLocality": true,
+            "resourceName": "*"
+          },
+          {
+            "capability": {
+              "memory": 2432,
+              "memorySize": 2432,
+              "virtualCores": 1
+            },
+            "nodeLabelExpression": "",
+            "numContainers": 0,
+            "priority": {
+              "priority": 1
+            },
+            "relaxLocality": true,
+            "resourceName": "*"
+          }
+        ],
+        "logAggregationStatus": "NOT_START",
+        "unmanagedApplication": false,
+        "amNodeLabelExpression": "",
+        "resourceInfo": {
+          "resourceUsagesByPartition": [
+            {
+              "partitionName": "",
+              "used": {
+                "memory": 3328,
+                "vCores": 2
+              },
+              "reserved": {
+                "memory": 0,
+                "vCores": 0
+              },
+              "pending": {
+                "memory": 0,
+                "vCores": 0
+              },
+              "amUsed": {
+                "memory": 896,
+                "vCores": 1
+              },
+              "amLimit": {
+                "memory": 0,
+                "vCores": 0
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
