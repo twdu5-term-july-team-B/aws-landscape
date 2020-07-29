@@ -41,3 +41,8 @@ variable "airflow_security_group_id" {
 variable "alerting_sns_topic" {
   description = "ARN of the SNS topic that alerts the team"
 }
+
+variable "kafka_consumers_to_monitor" {
+  type = "list"
+  description = "Names of Kafka Consumers (Yarn Applications) to monitor"
+}

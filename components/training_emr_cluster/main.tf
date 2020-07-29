@@ -58,4 +58,12 @@ module "training_cluster" {
   bastion_security_group_id = "${data.terraform_remote_state.bastion.bastion_security_group_id}"
   airflow_security_group_id = "${data.terraform_remote_state.airflow.airflow_security_group_id}"
   alerting_sns_topic = "${data.terraform_remote_state.alerting.sns_arn}"
+  kafka_consumers_to_monitor = [
+    "StationInformationSaverApp",
+    "StationStatusSaverApp",
+    "StationDataSFSaverApp",
+    "StationDataMarseilleSaverApp",
+    "StationApp",
+    "StationTransformerNYC"
+  ]
 }
