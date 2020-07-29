@@ -55,6 +55,7 @@ resource "aws_emr_cluster" "training_cluster" {
       type = "gp2"
     }
   }
+//  configurations_json = "${file("${path.module}/emrclusterconfig.json")}"
 
 // TODO: Error: Instance Group () Auto Scaling Policy: ValidationException: Instance group id '' is not valid.
 // This is probably caused by migrating from `instance_groups` to `core/master_instance_group`
