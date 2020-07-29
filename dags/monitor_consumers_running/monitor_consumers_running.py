@@ -11,13 +11,12 @@ from aws_cloudwatch_helpers import create_aws_cloudwatch_client, send_metrics_to
 
 class MonitorConsumersRunning:
     app_name = "monitor-consumers-running"
-    expected_consumers = ["StationInformationSaverApp",
-                      "StationStatusSaverApp",
-                      "StationDataSFSaverApp",
-                      "StationDataMarseilleSaverApp",
-                      "StationApp",
-                      "StationTransformerNYC"].sort()
-
+    expected_consumers = sorted(["StationInformationSaverApp",
+                               "StationStatusSaverApp",
+                               "StationDataSFSaverApp",
+                               "StationDataMarseilleSaverApp",
+                               "StationApp",
+                               "StationTransformerNYC"])
 
     def get_consumers(self):
         url = "http://emr-master.twdu5-term-july-team-b.training:8088/ws/v1/cluster/apps"
@@ -33,28 +32,22 @@ class MonitorConsumersRunning:
 
 
     def report_running(self, running_consumers):
-        print "expected"
-        print self.expected_consumers
-        print "running"
-        print running_consumers
-        print set(self.expected_consumers).intersection(running_consumers)
         for consumer in set(self.expected_consumers).intersection(running_consumers):
-            self.postToCloudwatch(self.cloudwatch_client, consumer, True)
+            self.postToCloudwatch(self.cloudwatch_client(), consumer, True)
 
 
     def report_not_running(self, running_consumers):
-        print set(self.expected_consumers).difference(running_consumers)
         for consumer in set(self.expected_consumers).difference(running_consumers):
             self.postToCloudwatch(self.cloudwatch_client(), consumer, False)
 
     def aws_session(self):
-        assume_role("arn:aws:iam::534731679169:role/steve-the-cloudwatcher", "airflow-" + self.app_name)
+        return assume_role("arn:aws:iam::534731679169:role/steve-the-cloudwatcher", "airflow-" + self.app_name)
 
     def cloudwatch_client(self):
-        create_aws_cloudwatch_client(self.aws_session(), "eu-central-1")
+        return create_aws_cloudwatch_client(self.aws_session(), "eu-central-1")
 
 
-    def postToCloudwatch(client, consumer_name, running):
+    def postToCloudwatch(self, client, consumer_name, running):
         value = 1.0 if running else 0.0
         send_metrics_to_cloudwatch(client, "Custom", "kafkaConsumerRunning", [
             {
