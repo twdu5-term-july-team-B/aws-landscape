@@ -17,10 +17,11 @@ class MonitorConsumersRunning:
                                "StationDataMarseilleSaverApp",
                                "StationApp",
                                "StationTransformerNYC"])
+    url = "http://emr-master.twdu5-term-july-team-b.training:8088/ws/v1/cluster/apps"
+
 
     def get_consumers(self):
-        url = "http://emr-master.twdu5-term-july-team-b.training:8088/ws/v1/cluster/apps"
-        res = requests.get(url, json={"key": "value"}, headers={'Content-type': 'application/json; charset=utf-8'})
+        res = requests.get(self.url, json={"key": "value"}, headers={'Content-type': 'application/json; charset=utf-8'})
         return res.json()
 
 
