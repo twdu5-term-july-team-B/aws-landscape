@@ -26,8 +26,12 @@ variable "core_type" {
   description = "Instance type of core node"
 }
 
-variable "core_count" {
-  description = "Number of core nodes"
+variable "min_core_count" {
+  description = "Min number of core nodes"
+}
+
+variable "max_core_count" {
+  description = "Max number of core nodes"
 }
 
 variable "bastion_security_group_id" {

@@ -1,6 +1,13 @@
+data "template_file" "emr-autoscaling" {
+  template = "${file("${path.module}/emr-autoscaling-policy.tpl")}"
+  vars = {
+    min_number_cores = "${var.min_core_count}"
+    max_number_cores = "${var.max_core_count}"
+  }
+}
 resource "aws_emr_cluster" "training_cluster" {
   name          = "${local.cluster_name}"
-  release_label = "emr-5.15.0"
+  release_label = "emr-5.30.1"
   applications = [
     "Spark", "Hue", "Hive", "Ganglia", "Pig", "Flink", "Oozie", "Zeppelin"
   ]
@@ -36,84 +43,45 @@ resource "aws_emr_cluster" "training_cluster" {
   }
 
   service_role = "${aws_iam_role.emr_service.arn}"
+  autoscaling_role = "${aws_iam_role.emr_autoscaling.arn}"
 
-//  TODO: The following causes the EMR cluster to be recreated... uncomment with caution.
-//  additional_info = "${file("${path.module}/emrclusterconfig.json")}"
+  configurations_json = "${file("${path.module}/emrclusterconfig.json")}"
 
-  instance_group {
-    instance_role  = "MASTER"
-    instance_type  = "${var.master_type}"
-    instance_count = "1"
+  master_instance_group {
+    instance_type = "${var.master_type}"
+    instance_count = 1
   }
 
-  instance_group {
-    instance_role  = "CORE"
-    instance_type  = "${var.core_type}"
-    instance_count = "${var.core_count}"
+  core_instance_group {
+    instance_type = "${var.core_type}"
+    instance_count = "${var.min_core_count}"
+
     ebs_config {
+      iops = 0
       size = "500"
       type = "gp2"
+      volumes_per_instance = 1
     }
+    autoscaling_policy = "${data.template_file.emr-autoscaling.rendered}"
   }
-//  configurations_json = "${file("${path.module}/emrclusterconfig.json")}"
 
-// TODO: Error: Instance Group () Auto Scaling Policy: ValidationException: Instance group id '' is not valid.
-// This is probably caused by migrating from `instance_groups` to `core/master_instance_group`
-//  master_instance_group {
-//    instance_type = "${var.master_type}"
-//  }
-//
-//  core_instance_group {
-//    instance_type = "${var.core_type}"
-//    instance_count = "${var.core_count}"
-//
-//    ebs_config {
-//      iops = 0
-//      size = "500"
-//      type = "gp2"
-//      volumes_per_instance = 1
-//    }
-//
-//    autoscaling_policy = <<EOF
-//{
-//"Constraints": {
-//  "MinCapacity": 3,
-//  "MaxCapacity": 6
-//},
-//"Rules": [
-//  {
-//    "Name": "ScaleOutMemoryPercentage",
-//    "Description": "Scale out if YARNMemoryAvailablePercentage is less than 15",
-//    "Action": {
-//      "SimpleScalingPolicyConfiguration": {
-//        "AdjustmentType": "CHANGE_IN_CAPACITY",
-//        "ScalingAdjustment": 1,
-//        "CoolDown": 300
-//      }
-//    },
-//    "Trigger": {
-//      "CloudWatchAlarmDefinition": {
-//        "ComparisonOperator": "LESS_THAN",
-//        "EvaluationPeriods": 1,
-//        "MetricName": "YARNMemoryAvailablePercentage",
-//        "Namespace": "AWS/ElasticMapReduce",
-//        "Period": 300,
-//        "Statistic": "AVERAGE",
-//        "Threshold": 15.0,
-//        "Unit": "PERCENT"
-//      }
-//    }
-//  }
-//]
-//}
-//EOF
-//    }
-
-
-  tags = "${merge(
-    local.common_tags,
-    map(
-      "Name", local.cluster_name
-    )
-  )}"
+    tags = "${merge(
+      local.common_tags,
+      map(
+        "Name", local.cluster_name
+      )
+    )}"
 }
+
+//resource "aws_emr_instance_group" "core" {
+//  cluster_id = "${aws_emr_cluster.training_cluster.id}"
+//  instance_type = "${var.core_type}"
+//  instance_count = "${var.min_core_count}"
+//  ebs_config {
+//    iops = 0
+//    size = "500"
+//    type = "gp2"
+//    volumes_per_instance = 1
+//  }
+//  autoscaling_policy = "${data.template_file.emr-autoscaling.rendered}"
+//}

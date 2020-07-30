@@ -11,6 +11,7 @@ variable "emr_cluster" {
   default = {
     "master_type" = "m1.medium"
     "core_type"   = "m1.medium"
-    "core_count"  = "2"
+    "min_core_count"  = "2"
+    "max_core_count"  = "3"
   }
 }

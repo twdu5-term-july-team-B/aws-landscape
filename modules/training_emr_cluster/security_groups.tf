@@ -76,6 +76,15 @@ resource "aws_security_group" "service" {
   )}"
 }
 
+resource "aws_security_group_rule" "service" {
+  from_port = 9443
+  protocol = "TCP"
+  security_group_id = "${aws_security_group.service.id}"
+  source_security_group_id = "${aws_security_group.master.id}"
+  to_port = 9443
+  type = "ingress"
+}
+
 resource "aws_security_group" "emr_shared" {
 
   name        = "emr-shared-${var.deployment_identifier}"

@@ -73,3 +73,4 @@ resource "aws_iam_role_policy_attachment" "backup-to-s3" {
   role = "${aws_iam_role.emr_node.name}"
   policy_arn = "${aws_iam_policy.backup-to-s3.arn}"
 }
+

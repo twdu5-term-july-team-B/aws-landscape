@@ -14,13 +14,20 @@
   {
     "Classification": "yarn-site",
     "Properties": {
-      "yarn.resourcemanager.scheduler.class": "org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler"
+      "yarn.resourcemanager.scheduler.class": "org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler",
+      "yarn.scheduler.capacity.maximum-am-resource-percent": "0.9"
     }
   },
   {
     "Classification": "spark",
     "Properties": {
       "maximizeResourceAllocation": "true"
+    }
+  },
+  {
+    "Classification": "hdfs-site",
+    "Properties": {
+      "dfs.replication": "3"
     }
   }
 ]
