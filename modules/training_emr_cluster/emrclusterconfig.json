@@ -20,7 +20,13 @@
   {
     "Classification": "spark",
     "Properties": {
-      "maximizeResourceAllocation": "true"
+      "maximizeResourceAllocation": "false"
+    }
+  },
+  {
+    "Classification": "spark-defaults",
+    "Properties": {
+      "spark.dynamicAllocation.enabled": "false"
     }
   }
 ]
