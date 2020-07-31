@@ -35,7 +35,17 @@ data "terraform_remote_state" "ingester" {
   }
 }
 
+data "template_file" "dashboard" {
+  template = "${file("${path.module}/dashboards.tpl")}"
+  vars = {
+    kafka_instance_id = "${data.terraform_remote_state.training_kafka.kafka_instance_id}"
+    emr_cluster_id = "${data.terraform_remote_state.training_emr_cluster.emr_cluster_id}"
+    aws_region = "${var.aws_region}"
+    ingester_instance_id = "${data.terraform_remote_state.ingester.ingester_instance_id}"
+  }
+}
+
 resource "aws_cloudwatch_dashboard" "main" {
   dashboard_name = "2wheelers"
-  dashboard_body = "${file("${path.module}/dashboards.json")}"
+  dashboard_body = "${data.template_file.dashboard.rendered}"
 }

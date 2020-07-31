@@ -9,7 +9,7 @@ sys.path.append(dir_path+"/helpers")
 from aws_helpers import assume_role
 
 app_name = "monitor-mart-5-min-delivery"
-cluster_id = "j-SESIVHUYGQI0"
+cluster_id = "j-3R3DO3ZC9RXSW"
 
 args = {
     'owner': 'airflow',

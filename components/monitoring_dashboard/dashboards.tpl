@@ -8,11 +8,11 @@
       "height": 3,
       "properties": {
         "metrics": [
-          [ "System/Linux", "MemoryUtilization", "InstanceId", "${data.terraform_remote_state.training_kafka.kafka_instance_id}", { "label": "MemoryUtilization" } ],
-          [ ".", "DiskSpaceUtilization", "MountPath", "/", "InstanceId", "${data.terraform_remote_state.training_kafka.kafka_instance_id}", "Filesystem", "/dev/xvda1" ]
+          [ "System/Linux", "MemoryUtilization", "InstanceId", "${kafka_instance_id}", { "label": "MemoryUtilization" } ],
+          [ ".", "DiskSpaceUtilization", "MountPath", "/", "InstanceId", "${kafka_instance_id}", "Filesystem", "/dev/xvda1" ]
         ],
         "view": "singleValue",
-        "region": "${var.aws_region}",
+        "region": "${aws_region}",
         "title": "Kafka",
         "period": 300
       }
@@ -25,14 +25,14 @@
       "height": 9,
       "properties": {
         "metrics": [
-          [ "AWS/ElasticMapReduce", "HDFSUtilization", "JobFlowId", "${data.terraform_remote_state.training_emr_cluster.emr_cluster_id}" ],
+          [ "AWS/ElasticMapReduce", "HDFSUtilization", "JobFlowId", "${emr_cluster_id}" ],
           [ ".", "AppsRunning", ".", "." ],
           [ ".", "AppsPending", ".", "." ],
           [ ".", "YARNMemoryAvailablePercentage", ".", "." ]
         ],
         "view": "singleValue",
         "stacked": false,
-        "region": "${var.aws_region}",
+        "region": "${aws_region}",
         "period": 300,
         "title": "EMR HDFS"
       }
@@ -46,13 +46,13 @@
       "properties": {
         "metrics": [
           [ { "expression": "m2+m3", "label": "MemoryUsed", "id": "e1", "color": "#d62728" } ],
-          [ "AWS/ElasticMapReduce", "MemoryTotalMB", "JobFlowId", "${data.terraform_remote_state.training_emr_cluster.emr_cluster_id}", { "id": "m1", "color": "#1f77b4" } ],
+          [ "AWS/ElasticMapReduce", "MemoryTotalMB", "JobFlowId", "${emr_cluster_id}", { "id": "m1", "color": "#1f77b4" } ],
           [ ".", "MemoryReservedMB", ".", ".", { "id": "m2", "color": "#bcbd22" } ],
           [ ".", "MemoryAllocatedMB", ".", ".", { "id": "m3", "color": "#ff7f0e" } ]
         ],
         "view": "timeSeries",
         "stacked": false,
-        "region": "${var.aws_region}",
+        "region": "${aws_region}",
         "period": 300,
         "title": "EMR Cluster Memory Usage"
       }
@@ -65,12 +65,12 @@
       "height": 3,
       "properties": {
         "metrics": [
-          [ "System/Linux", "DiskSpaceUtilization", "MountPath", "/", "InstanceId", "${data.terraform_remote_state.training_kafka.kafka_instance_id}", "Filesystem", "/dev/xvda1", { "label": "DiskSpaceUtilization" } ],
-          [ ".", "MemoryUtilization", "InstanceId", "${data.terraform_remote_state.training_kafka.kafka_instance_id}" ]
+          [ "System/Linux", "DiskSpaceUtilization", "MountPath", "/", "InstanceId", "${kafka_instance_id}", "Filesystem", "/dev/xvda1", { "label": "DiskSpaceUtilization" } ],
+          [ ".", "MemoryUtilization", "InstanceId", "${kafka_instance_id}" ]
         ],
         "view": "timeSeries",
         "stacked": false,
-        "region": "${var.aws_region}",
+        "region": "${aws_region}",
         "title": "Kafka Status",
         "period": 300,
         "yAxis": {
@@ -89,13 +89,13 @@
       "height": 6,
       "properties": {
         "metrics": [
-          [ "AWS/ElasticMapReduce", "AppsRunning", "JobFlowId", "${data.terraform_remote_state.training_emr_cluster.emr_cluster_id}" ],
+          [ "AWS/ElasticMapReduce", "AppsRunning", "JobFlowId", "${emr_cluster_id}" ],
           [ ".", "AppsPending", ".", "." ],
           [ ".", "ContainerReserved", ".", "." ]
         ],
         "view": "timeSeries",
         "stacked": false,
-        "region": "${var.aws_region}",
+        "region": "${aws_region}",
         "period": 300
       }
     },
@@ -109,9 +109,9 @@
         "view": "timeSeries",
         "stacked": false,
         "metrics": [
-          [ "System/Linux", "MemoryUtilization", "InstanceId", "${data.terraform_remote_state.ingester.ingester_instance_id}" ]
+          [ "System/Linux", "MemoryUtilization", "InstanceId", "${ingester_instance_id}" ]
         ],
-        "region": "${var.aws_region}",
+        "region": "${aws_region}",
         "title": "Ingester Memory Usage",
         "period": 300,
         "yAxis": {
@@ -130,8 +130,8 @@
       "height": 3,
       "properties": {
         "metrics": [
-          [ "Linux System", "DiskSpaceUtilization", "InstanceId", "i-0e5aaf2e8fec782b8", "MountPath", "/", "Filesystem", "/dev/xvda1", { "stat": "Average", "visible": false } ],
-          [ "System/Linux", ".", "MountPath", "/", "InstanceId", "i-0e5aaf2e8fec782b8", ".", ".", { "stat": "Average" } ]
+          [ "Linux System", "DiskSpaceUtilization", "InstanceId", "${kafka_instance_id}", "MountPath", "/", "Filesystem", "/dev/xvda1", { "stat": "Average", "visible": false } ],
+          [ "System/Linux", ".", "MountPath", "/", "InstanceId", "${kafka_instance_id}", ".", ".", { "stat": "Average" } ]
         ],
         "region": "eu-central-1",
         "view": "timeSeries",
@@ -157,7 +157,7 @@
       "properties": {
         "region": "eu-central-1",
         "metrics": [
-          [ "Custom", "hdfs-station-mart-file-exists", "JobFlowId", "j-1HHXQM194OUAM", { "stat": "Minimum" } ]
+          [ "Custom", "hdfs-station-mart-file-exists", "JobFlowId", "${emr_cluster_id}", { "stat": "Minimum" } ]
         ],
         "view": "timeSeries",
         "stacked": false,

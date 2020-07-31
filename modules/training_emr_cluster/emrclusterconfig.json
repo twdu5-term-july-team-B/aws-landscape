@@ -8,7 +8,8 @@
       "yarn.scheduler.capacity.root.monitoring.capacity": "5",
       "yarn.scheduler.capacity.root.default.state": "RUNNING",
       "yarn.scheduler.capacity.root.streaming.state": "RUNNING",
-      "yarn.scheduler.capacity.root.monitoring.state": "RUNNING"
+      "yarn.scheduler.capacity.root.monitoring.state": "RUNNING",
+      "yarn.scheduler.capacity.resource-calculator": "org.apache.hadoop.yarn.util.resource.DominantResourceCalculator"
     }
   },
   {
