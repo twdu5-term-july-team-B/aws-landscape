@@ -1,0 +1,65 @@
+{
+  "ClusterId":"j-1XSO132RR70T5",
+  "InstanceGroups":[
+    {
+      "InstanceGroupId": "ig-2QBA6172BARQU",
+      "Configurations": [
+        {
+          "Classification": "capacity-scheduler",
+          "Properties": {
+            "yarn.scheduler.capacity.root.queues": "default,streaming,monitoring",
+            "yarn.scheduler.capacity.maximum-am-resource-percent": "0.9"
+          }
+        },
+        {
+          "Classification": "yarn-site",
+          "Properties": {
+            "yarn.resourcemanager.scheduler.class": "org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler"
+          }
+        },
+        {
+          "Classification": "spark",
+          "Properties": {
+            "maximizeResourceAllocation": "true"
+          }
+        },
+        {
+          "Classification": "hdfs-site",
+          "Properties": {
+            "dfs.replication": "3"
+          }
+        }
+      ]
+    },
+    {
+      "InstanceGroupId": "ig-38GWZR9YVR93Q",
+      "Configurations": [
+        {
+          "Classification": "capacity-scheduler",
+          "Properties": {
+            "yarn.scheduler.capacity.root.queues": "default,streaming,monitoring",
+            "yarn.scheduler.capacity.maximum-am-resource-percent": "0.9"
+          }
+        },
+        {
+          "Classification": "yarn-site",
+          "Properties": {
+            "yarn.resourcemanager.scheduler.class": "org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler"
+          }
+        },
+        {
+          "Classification": "spark",
+          "Properties": {
+            "maximizeResourceAllocation": "true"
+          }
+        },
+        {
+          "Classification": "hdfs-site",
+          "Properties": {
+            "dfs.replication": "3"
+          }
+        }
+      ]
+    }
+  ]
+}
